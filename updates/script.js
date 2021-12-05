@@ -85,29 +85,18 @@ button.addEventListener("click", async () => {
         alert('לא הוגש שום קובץ');
         return;
     }
-
-    var dbData;
     
     var auth = getCookie('auth');
-    console.log(auth);
-    var done = false;
 
-    while (!done)
+    if (auth === "")
     {
-        try {
-            octokit = new Octokit({auth: auth});
-            dbData = await getFile('db.json');
-            done = true;
-        }
-        catch (error) {
-            console.log(error);
-
-            auth = prompt("אנא הכנסו את הסיסמא: ");
-            document.cookie = "auth=" + auth;
-            done = false;
-        }
+      auth = prompt("אנא הכנסו את הסיסמא: ");
+      document.cookie = "auth=" + auth;
     }
 
+    octokit = new Octokit({auth});
+
+    var dbData = await getFile('db.json');
     const json = JSON.parse(atob(dbData));
 
     var first = new Date(json[0]);
