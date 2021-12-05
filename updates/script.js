@@ -22,8 +22,8 @@ function getCookie(cname) {
 
 async function getSHA(path) {
     const result = await octokit.repos.getContent({
-      owner: "amirave",
-      repo: "amirave.github.io",
+      owner: "harishonim",
+      repo: "harishonim.github.io",
       path,
     });
   
@@ -35,14 +35,14 @@ async function getSHA(path) {
 async function getFile(path)
 {
     const resp = await octokit.repos.getContent({
-        owner: "amirave",
-        repo: "amirave.github.io",
+        owner: "harishonim",
+        repo: "harishonim.github.io",
         path,
     });
 
     return resp.data.content;
 
-    /*return fetch('https://amirave.github.io/' + path)
+    /*return fetch('https://harishonim.github.io/' + path)
         .then(response => {
             return response.json()
         })
@@ -57,8 +57,8 @@ async function setFile(path, content)
     const sha = await getSHA(path);
 
     const { data } = await octokit.repos.createOrUpdateFileContents({
-      owner: "amirave",
-      repo: "amirave.github.io",
+      owner: "harishonim",
+      repo: "harishonim.github.io",
       path: path,
       message: "updated " + path + ". " + new Date().toLocaleString(),
       content: content,
@@ -196,8 +196,8 @@ async function main(content)
 
     const { data } = await octokit.repos.createOrUpdateFileContents({
       // replace the owner and email with your own details
-      owner: "amirave",
-      repo: "amirave.github.io",
+      owner: "harishonim",
+      repo: "harishonim.github.io",
       path: path,
       message: "updated " + path + ". " + new Date().toLocaleString(),
       content: contentEncoded,
