@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html dir="rtl">
+    <head>
+        <title>עדכוני מערכת</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="center">
+            <h1>עדכוני מערכת</h1>
+            
+            <div id="submitScreen">
+                <div class="dateSelect">
+                    <p>עדכן את המערכת של </p>
+                    <select dir="ltr" id="day">
+                        <option value="today">היום</option>
+                        <option value="tomorrow">מחר</option>
+                    </select>
+                </div>
+                
+                <input id="file" type="file"/><br><br>
+                <button class="upload" id="upload">שלח קובץ</button>
+            </div>
+
+            <div id="doneScreen" class="horz" style="display:none;">
+                <p><span class="check">✓</span> המערכת עודכנה</p>
+            </div>
+        </div>
+
+        <script type="module" src="script.js"></script>
+    </body>
+</html>
