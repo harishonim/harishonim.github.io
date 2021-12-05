@@ -41,15 +41,6 @@ async function getFile(path)
     });
 
     return resp.data.content;
-
-    /*return fetch('https://harishonim.github.io/' + path)
-        .then(response => {
-            return response.json()
-        })
-        .then(data => {
-            console.log("data: " + data);
-            return data;
-        });*/
 }
 
 async function setFile(path, content)
@@ -98,6 +89,7 @@ button.addEventListener("click", async () => {
     var dbData;
     
     var auth = getCookie('auth');
+    print(auth);
     var done = false;
 
     while (!done)
