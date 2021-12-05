@@ -89,7 +89,7 @@ button.addEventListener("click", async () => {
     var dbData;
     
     var auth = getCookie('auth');
-    print(auth);
+    console.log(auth);
     var done = false;
 
     while (!done)
