@@ -98,24 +98,32 @@ button.addEventListener("click", async () => {
 
     var decryptedBytes = CryptoJS.AES.decrypt(encrypedPassword, auth);
     var password = decryptedBytes.toString(CryptoJS.enc.Utf8);
-	console.log(password);
 
     octokit = new Octokit({auth: password});
 
     var isDaily = dropDown.value == "daily"
 	const uploadContent = upload.split("base64,", 2)[1];
 
-    if (isDaily)
-    {
-		setFile("first.docx", uploadContent);
-    }
-	else
+	try
 	{
-		setFile("weekly.docx", uploadContent);
-	}
+		if (isDaily)
+		{
+			await setFile("first.docx", uploadContent);
+		}
+		else
+		{
+			await setFile("weekly.docx", uploadContent);
+		}
 
-    document.getElementById("submitScreen").style = "display: none;";
-    document.getElementById("doneScreen").style = "";
+		document.getElementById("submitScreen").style = "display: none;";
+    	document.getElementById("doneScreen").style = "";
+	}
+    catch (err)
+	{
+		document.cookie = "auth=";
+		document.getElementById("submitScreen").style = "display: none;";
+    	document.getElementById("failScreen").style = "";
+	}
 });
 
 uploaded.addEventListener("change", evt => {

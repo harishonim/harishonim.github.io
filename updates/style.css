@@ -27,7 +27,7 @@ body {
     margin: 0 auto;
 }
 
-.upload {
+button {
     float: left;
     cursor: pointer;
     border: 0px;
@@ -55,4 +55,8 @@ h1 {
 
 span.check {
     color: green;
+}
+
+span.error {
+    color: red;
 }
