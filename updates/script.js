@@ -100,7 +100,7 @@ button.addEventListener("click", async () => {
     var password = decryptedBytes.toString(CryptoJS.enc.Utf8);
 	console.log(password);
 
-    octokit = new Octokit({password});
+    octokit = new Octokit({auth: password});
 
     var isDaily = dropDown.value == "daily"
 	const uploadContent = upload.split("base64,", 2)[1];
