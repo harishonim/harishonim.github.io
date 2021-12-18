@@ -73,8 +73,10 @@ Date.prototype.addDays = function(days) {
 
 var octokit;
 
+var encrypedPassword = "U2FsdGVkX1/nLXF5tdA83utHA+gsOFHvO/zTWVysPZ/AACi6bdl8Sm5PGZrgYIZLQHwaqHD+pnr4JKwfr8u69Q==";
+
 var uploaded = document.getElementById("file");
-var dayDrop = document.getElementById("day");
+var dropDown = document.getElementById("day");
 var button = document.getElementById("upload");
 
 var upload = null;
@@ -88,68 +90,29 @@ button.addEventListener("click", async () => {
     
     var auth = getCookie('auth');
 
-    if (auth === "")
+    if (auth === "" || auth.startsWith("ghp"))
     {
       auth = prompt("אנא הכנסו את הסיסמא: ");
       document.cookie = "auth=" + auth;
     }
 
-    octokit = new Octokit({auth});
+    var decryptedBytes = CryptoJS.AES.decrypt(encrypedPassword, auth);
+    var password = decryptedBytes.toString(CryptoJS.enc.Utf8);
+	console.log(password);
 
-    var dbData = await getFile('db.json');
-    const json = JSON.parse(atob(dbData));
+    octokit = new Octokit({password});
 
-    var first = new Date(json[0]);
-    var second = new Date(json[1]);
-    first.setHours(0, 0, 0, 0);
-    second.setHours(0, 0, 0, 0);
-    
-    const uploadContent = upload.split("base64,", 2)[1];
+    var isDaily = dropDown.value == "daily"
+	const uploadContent = upload.split("base64,", 2)[1];
 
-    var day = new Date();
-    day.setHours(0, 0, 0, 0);
-
-    var today = dayDrop.value == "today";
-    if (!today)
-        day = day.addDays(1);
-
-    if (day.getTime() == second.getTime())
+    if (isDaily)
     {
-        // update second
-        console.log('update second');
-        await setFile('second.docx', uploadContent);
+		setFile("first.docx", uploadContent);
     }
-    else if (day.getTime() == first.getTime())
-    {
-        // update first
-        console.log('update first');
-        await setFile('first.docx', uploadContent);
-    }
-    else if (day < first && second < day)
-    {
-        console.log('swap second with today');
-        second = day; // swap second with today
-        await setFile('second.docx', uploadContent);
-    }
-    else if (day > first)
-    {
-        // swap second with first, swap first with today
-        console.log('swap second with first, swap first with today');
-        second = first;
-        first = day;
-        var firstFile = await getFile('first.docx');
-        await setFile('second.docx', firstFile);
-        await sleep(500);
-        await setFile('first.docx', uploadContent);
-    }
-
-    const offset = first.getTimezoneOffset()
-    first = new Date(first.getTime() - (offset*60*1000))
-    second = new Date(second.getTime() - (offset*60*1000))
-
-    var string = '["' + first.toISOString().split('T')[0] + '","' + second.toISOString().split('T')[0] + '"]';
-    await sleep(500);
-    await setFile('db.json', btoa(string));
+	else
+	{
+		setFile("weekly.docx", uploadContent);
+	}
 
     document.getElementById("submitScreen").style = "display: none;";
     document.getElementById("doneScreen").style = "";
@@ -165,33 +128,3 @@ uploaded.addEventListener("change", evt => {
 
     reader.readAsDataURL(file);
 }, false);
-
-async function main(content)
-{
-    /*const path = "first.docx";
-    const contentEncoded = content.split("base64,", 2)[1];//btoa(content);
-    //console.log(contentEncoded);
-
-    const sha = await getSHA(path);
-    console.log(sha);
-
-    const { data } = await octokit.repos.createOrUpdateFileContents({
-      // replace the owner and email with your own details
-      owner: "harishonim",
-      repo: "harishonim.github.io",
-      path: path,
-      message: "updated " + path + ". " + new Date().toLocaleString(),
-      content: contentEncoded,
-      sha: sha,
-      committer: {
-        name: `Octokit Bot`,
-        email: "amir.rave@gmail.com",
-      },
-      author: {
-        name: "Octokit Bot",
-        email: "amir.rave@gmail.com",
-      },
-    });*/
-
-    console.log(data);
-}
