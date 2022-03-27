@@ -1,0 +1,62 @@
+.dateSelect select,
+.dateSelect p {
+    display: inline;
+    vertical-align: top;
+    line-height: 28px;
+}
+
+body {
+    background-color: burlywood;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.center {
+    background-color: white;
+    /* Center vertically and horizontally */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 0px 50px 40px 50px;
+    border-radius: 30px;
+}
+
+.horz {
+    width: 50%;
+    margin: 0 auto;
+}
+
+button {
+    float: left;
+    cursor: pointer;
+    border: 0px;
+    background-color: rgb(126, 89, 41);
+    color: white;
+    border-radius: 200px;
+    padding: 10px 20px 10px 20px;
+    font-size: 100%;
+    box-shadow: 0px 0px 10px -5px black;
+}
+
+.upload:hover {
+    box-shadow: 0px 0px 0px white;
+    background-color: rgb(114, 82, 41)
+}
+
+.upload:active {
+    background-color: rgb(95, 71, 40);
+    transform: translate(0, 2px);
+}
+
+h1 {
+    font-size: 50px;
+}
+
+span.check {
+    color: green;
+}
+
+span.error {
+    color: red;
+}
